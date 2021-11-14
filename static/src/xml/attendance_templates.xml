@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="NotificationList" owl="1" class="notification-list">
+      <t t-foreach="props.notifications" t-as="notif">
+        <div class="notification"><t t-esc="notif"/></div>
+      </t>
+    </div>
+
+    <div t-name="User" owl="1">
+        <span><img class="user-image" t-att-src="props.user.image"/></span>
+        <h2><t t-esc="props.user.userName"/></h2>
+        <button t-on-click="checkIn">Check In</button>
+      </div>
+
+    <div t-name="FormView" class="formview" owl="1">
+        <div class="formviewsearch">
+          <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
+            <button t-on-click="searchUser"></button>
+        </div>
+        <div class="user-list" t-on-check-in="checkIn">
+          <t t-foreach="users" t-as="user" t-key="user.id">
+            <User user="user"/>
+          </t>
+        </div>
+        <AsyncRoot>
+          <NotificationList notifications="state.notifs"/>
+        </AsyncRoot>
+      </div>
+</templates>

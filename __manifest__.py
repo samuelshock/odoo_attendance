@@ -11,8 +11,13 @@
     """,
     'depends': ['base'],
     'data': [
+        'security/ir.model.access.csv',
+        'views/assets.xml',
         'views/res_partner.xml',
         'views/attendance_view.xml',
+    ],
+    'qweb': [
+        'static/src/xml/attendance_templates.xml',
     ],
     'images': ['static/description/icon.png'],
     'demo': [], 

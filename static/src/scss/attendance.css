@@ -1,0 +1,86 @@
+.formview {
+    /*background-image: url("https://image.shutterstock.com/z/stock-photo-old-brick-black-color-wall-vintage-background-1605128917.jpg");*/
+    overflow-y: auto;
+    flex: 1 1 60%;
+    min-height: 200px;
+    padding: 8px;
+}
+.formviewsearch {
+    border-radius: 5px;
+    border: 1px solid #d2d2d2;
+    background: #fff;
+    position: relative;
+    margin-top: 10px;
+    box-sizing: border-box;
+    font-family: Avenir Next,Roboto Condensed,Arial,sans-serif;
+}
+
+.formviewsearch > input {
+    position: relative!important;
+    background: none!important;
+    border: none!important;
+    color: #000!important;
+    padding: 5px 6px 5px 10px!important;
+    width: calc(100% - 60px)!important;
+}
+
+.formviewsearch > button::before {
+    width: 1em;
+    height: 1em;
+    border-radius: 1em;
+    transform: translate(-50%,-50%);
+    border: 2px solid;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.formviewsearch > button::after {
+    width: 2px;
+    height: 1em;
+    transform-origin: 0 0;
+    transform: rotate(-45deg) translate(-0.5px,0.5em);
+    background-color: white;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.formviewsearch > button {
+    background-color: #3f556b;
+    color: white;
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 0;
+    width: 44px;
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    height: auto;
+    right: -1px;
+    cursor: pointer;
+}
+
+.notification-list {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.notification {
+    width: 150px;
+    margin: 4px 8px;
+    padding: 16px;
+    border: 1px solid: black;
+    background-color: lightgray;
+}
+
+.user-image {
+    width: 150px;
+    height: 200px;
+}

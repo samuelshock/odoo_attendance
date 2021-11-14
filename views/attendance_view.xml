@@ -24,6 +24,18 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="open_check_in_page" context="{'default_partner_id': active_id}">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_text">Check In Page</span>
+                            </div>
+                        </button>
+                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="open_standby_screen_page" context="{'default_partner_id': active_id}">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_text">Standby Page</span>
+                            </div>
+                        </button>
+                    </div>
                     <group>
                         <group string="Check-In Settings">
                             <field name="name" required="1"/>

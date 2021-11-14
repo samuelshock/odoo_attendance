@@ -2,9 +2,11 @@
 <odoo>
     <template id="assets_backend" name="web_notify assets" inherit_id="web.assets_backend" >
         <link rel="stylesheet" type="text/scss" href="/web/static/src/scss/webclient.scss" position="after" >
-            <link rel="stylesheet" type="text/scss" href="/web_notify/static/src/scss/webclient.scss" />
+            <link rel="stylesheet" type="text/scss" href="/odoo_attendance/static/src/scss/webclient.scss" />
+            <link rel="stylesheet" type="text/css" href="/odoo_attendance/static/src/scss/attendance.css" />
         </link>
         <xpath expr="." position="inside">
+            <script type="text/javascript" src="/odoo_attendance/static/src/js/attendance/attendance.js" />
             <script type="text/javascript" src="/odoo_attendance/static/src/js/web_client.js" />
             <script type="text/javascript" src="/odoo_attendance/static/src/js/widgets/notification.js" />
         </xpath>
