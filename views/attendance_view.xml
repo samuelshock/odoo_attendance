@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--name = fields.Char(string='Entrada')-->
+<!--    background_login_image = fields.Many2one('ir.attachment', string='Image')-->
+<!--    status_active = fields.Boolean(string='Esta activo?', default=False)-->
+<!--    time_out_to_display = fields.Float(string="Tiempo de espera para mostrar mensaje")-->
+<!--    message_to_show = fields.Char(string='Mensaje a mostrar')-->
+    <record id="view_attendance_session_custom" model="ir.ui.view">
+        <field name="name">Sessiones de attendance</field>
+        <field name="model">session.attendance</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Sessions Attendance">
+                <field name="name" />
+                <field name="status_active" string="Esta activo?"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_form_attendance_session_custom" model="ir.ui.view">
+        <field name="name">Session Detail</field>
+        <field name="model">session.attendance</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Check-In Settings">
+                            <field name="name" required="1"/>
+                            <field name="background_login_image" required="1"/>
+                            <field name="status_active"/>
+                        </group>
+                        <group string="StandBy Screen">
+                            <field name="time_out_to_display" required="1"/>
+                            <field name="message_to_show"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_attendance_session_custom" model="ir.actions.act_window">
+        <field name="name">Attendance Session</field>
+        <field name="res_model">session.attendance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Crear sessiones o puntos de attendance.
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Odoo Attendance QR" id="attendance_session_custom"
+        web_icon="odoo_attendance,static/description/icon.png"
+        sequence="4" />
+    <menuitem id="menu_attendance_session_custom" name="Odoo Attendance QR" sequence="1" web_icon="odoo_attendance,static/description/icon.png" action="action_attendance_session_custom"/>
+
+    <!-- Top menu item -->
+<!--    <menuitem-->
+<!--        id="menu_odoo_attendance"-->
+<!--        name="Screen Control"-->
+<!--        web_icon="odoo_attendance,static/description/icon.png"-->
+<!--        sequence="20"/>-->
+
+    <!-- Orders menu -->
+<!--    <menuitem id="menu_screen_control"-->
+<!--        name="Screen Control"-->
+<!--        parent="menu_odoo_attendance"-->
+<!--        sequence="10"/>-->
+
+<!--    <menuitem id="menu_screen_control_login"-->
+<!--        name="Login"-->
+<!--        parent="menu_screen_control"-->
+<!--        action="odoo_attendance_action_screen_control"-->
+<!--        sequence="100"/>-->
+
+    <!-- Reporting menu -->
+<!--    <menuitem id="menu_odoo_attendance_report"-->
+<!--        name="Reporting"-->
+<!--        parent="menu_odoo_attendance"-->
+<!--        sequence="90"/>-->
+
+    <!-- Config menu and sub menus -->
+    <!-- <menuitem id="menu_point_config_product"
+        name="Configuration"
+        parent="menu_point_root"
+        sequence="100"
+        groups="group_pos_manager"/>
+
+    <menuitem id="pos_menu_products_configuration"
+        name="Products"
+        parent="menu_point_config_product"
+        sequence="11"/> -->
+
+</odoo>

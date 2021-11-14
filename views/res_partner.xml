@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="x_view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                <page string="Information extra" name="group_x_tab">
+                    <group name="group_x">
+                        <group name="group_x_left">
+                            <field name="x_identity_card"/>
+                            <field name="x_user_code"/>
+                            <field name="x_user_type"/>
+                            <field name="x_user_type_color"/>
+                        </group>
+                        <group name="group_x_right"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

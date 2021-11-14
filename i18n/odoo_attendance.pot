@@ -1,0 +1,62 @@
+
+#. module: odoo_attendance
+#: model_terms:ir.ui.view,arch_db:odoo_attendance.x_view_partner_form
+msgid "Information extra"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields,field_description:odoo_attendance.field_res_partner__x_identity_card
+msgid "Identity card"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields,field_description:odoo_attendance.field_res_partner__x_user_code
+msgid "User code"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields,field_description:odoo_attendance.field_res_partner__x_user_type
+msgid "Type of user"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields,field_description:odoo_attendance.field_res_partner__x_user_type_color
+msgid "Tipo Usuario Color"
+msgstr ""
+
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type__vip
+msgid "Vip"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type__vip2
+msgid "vip2"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type__vipn
+msgid "vipn"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type__client
+msgid "client"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type__locked
+msgid "locked"
+msgstr ""
+
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type_color__code_color
+msgid "code_color"
+msgstr ""
+
+#. module: odoo_attendance
+#: model:ir.model.fields.selection,name:odoo_attendance.selection__res_partner__x_user_type_color__code_colorn
+msgid "code_colorn"
+msgstr ""
