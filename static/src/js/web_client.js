@@ -3,6 +3,7 @@ odoo.define("web_notify.WebClient", function (require) {
 
     var WebClient = require("web.WebClient");
     var session = require("web.session");
+    var Dialog = require('web.Dialog');
     require("bus.BusService");
 
     WebClient.include({
@@ -49,6 +50,35 @@ odoo.define("web_notify.WebClient", function (require) {
             });
         },
         on_message: function (message) {
+            var self =this;
+            // var dialog = new Dialog(this, {
+            //     title: 'Información',
+            //     size: 'medium',
+            //     $content: ("<div style='font-size:14px;font-family:Helvetica, Arial, sans-serif;'>" + message.message + "</div>"),
+            //     buttons: [{
+            //         text: ('Ok'),
+            //         classes: "btn-primary",
+            //         close: true,
+            //         click: function () {
+            //             //location.reload();
+            //             self._rpc({
+            //                 model: "ir.model.data",
+            //                 method: 'get_object_reference',
+            //                 args: ['crm', 'crm_lead_view_form']
+            //             }).then(function (result) {
+            //                 self.do_action({
+            //                     name: "flujo",
+            //                     type: 'ir.actions.act_window',
+            //                     res_model: 'crm.lead',
+            //                     views: [[result[1], 'form']],
+            //                     view_mode: 'form',
+            //                     res_id: message.record_id
+            //                 });
+            //             });
+            //         },
+            //     }],
+            // }).open();
+
             return this.call("notification", "notify", {
                 type: message.type,
                 title: message.title,

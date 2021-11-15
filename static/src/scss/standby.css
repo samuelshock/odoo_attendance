@@ -3,3 +3,26 @@
     height: 100%;
     width: 100%;
 }
+
+.video-container {
+    position: relative;
+    height:100%;
+
+}
+
+.video-container iframe html body video {
+    margin:0px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+/* .video-container iframe, .video-container object, .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin:0px;
+} */

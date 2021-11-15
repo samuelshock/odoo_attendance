@@ -13,7 +13,7 @@
     </div>
 
     <t t-name="FormView" class="formview" owl="1">
-        <div class="formview"  t-attf-style="background-image:url('props.background_image'); width:100%; height:100%;">
+        <div class="formview" t-attf-style="background-image:url('props.background_image'); width:100%; height:100%;">
         <div class="formviewsearch">
           <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
             <button t-on-click="searchUser"></button>
@@ -30,8 +30,11 @@
     </t>
 
     <t t-name="mainStandBy" owl="1">
-        <div class="o_main_standby">
-
+        <div class="o_main_standby" >
+          <!-- <div class="embed-responsive embed-responsive-16by9 video-container" > -->
+          <div class="embed-responsive video-container" >
+            <iframe class="embed-responsive-item" src="http://localhost:8069/web/image/ir.attachment/195/datas" frameborder="0"></iframe>
+          </div>
         </div>
     </t>
 </templates>

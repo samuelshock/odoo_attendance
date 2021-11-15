@@ -18,3 +18,7 @@ class AttendanceResPartner(models.Model):
         ('code_color', 'Code color'),
         ('code_colorn', 'Code color n'),
     ], "User Type Color")
+
+    def send_message(self):
+        user = self.env['res.users'].search([('id','=',6)])
+        user.notify_success(message='My success message')
