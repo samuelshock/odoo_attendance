@@ -38,6 +38,11 @@ odoo.define("odoo_attendance", function (require) {
             this.state = useState({ text: "", notifs: [] });
         }
 
+        async willStart() {
+            console.log("willstart");
+            console.log(this);
+        }
+
         mounted() {
             this.inputRef.el.focus();
         }
@@ -229,7 +234,10 @@ odoo.define("odoo_attendance", function (require) {
         start() {
             console.log("************");
             console.log(this);
-            const component = new ComponentWrapper(this, FormView);
+            const component = new ComponentWrapper(this, FormView, {
+                session_id: this.session_id,
+                background_image: this.background_image,
+            });
             return component.mount(this.el.querySelector(".o_content"));
         },
     });

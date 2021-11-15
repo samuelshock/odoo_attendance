@@ -10,9 +10,10 @@
         <span><img class="user-image" t-att-src="props.user.image"/></span>
         <h2><t t-esc="props.user.userName"/></h2>
         <button t-on-click="checkIn">Check In</button>
-      </div>
+    </div>
 
-    <div t-name="FormView" class="formview" owl="1">
+    <t t-name="FormView" class="formview" owl="1">
+        <div class="formview"  t-attf-style="background-image:url('props.background_image'); width:100%; height:100%;">
         <div class="formviewsearch">
           <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
             <button t-on-click="searchUser"></button>
@@ -26,4 +27,11 @@
           <NotificationList notifications="state.notifs"/>
         </AsyncRoot>
       </div>
+    </t>
+
+    <t t-name="mainStandBy" owl="1">
+        <div class="o_main_standby">
+
+        </div>
+    </t>
 </templates>

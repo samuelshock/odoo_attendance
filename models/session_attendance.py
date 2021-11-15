@@ -32,4 +32,11 @@ class PointSessionAttendance(models.Model):
         }
 
     def open_standby_screen_page(self):
-        pass
+        return {
+            'res_model': 'session.attendance',
+            'type': 'ir.actions.client',
+            'tag': 'standby_action',
+            'context': {
+                'id': self.id,
+            }
+        }
