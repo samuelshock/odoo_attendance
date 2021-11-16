@@ -44,6 +44,7 @@
                         </group>
                         <group string="StandBy Screen">
                             <field name="time_out_to_display" required="1"/>
+                            <field name="background_standby_video"/>
                             <field name="message_to_show"/>
                         </group>
                     </group>

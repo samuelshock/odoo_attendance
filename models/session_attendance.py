@@ -16,6 +16,7 @@ class PointSessionAttendance(models.Model):
 
     name = fields.Char(string='Entrada')
     background_login_image = fields.Many2one('ir.attachment', string='Image')
+    background_standby_video = fields.Many2one('ir.attachment', string='Video')
     status_active = fields.Boolean(string='Estado', default=False)
     time_out_to_display = fields.Float(string="Tiempo de espera para mostrar mensaje", default=5.0)
     message_to_show = fields.Char(string='Mensaje a mostrar')
@@ -38,5 +39,21 @@ class PointSessionAttendance(models.Model):
             'tag': 'standby_action',
             'context': {
                 'id': self.id,
+                'video': "/web/image/ir.attachment/{}/datas".format(self.background_standby_video.id),
             }
         }
+
+    def search_user(self, text_to_search):
+        users = self.env['res.partner'].search(
+            ['|', '|', ('x_user_code', 'ilike', text_to_search),
+             ('mobile', 'ilike', text_to_search),
+             ('vat', 'ilike', text_to_search)])
+        return [
+            {
+                'id': u.id,
+                'name': u.name,
+                'image': u.image_1920,
+                'vat': u.vat,
+                'x_user_code': u.x_user_code,
+                'x_user_type': u.x_user_type
+            } for u in users]

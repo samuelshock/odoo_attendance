@@ -4,24 +4,29 @@
     flex: 1 1 60%;
     min-height: 200px;
     padding: 8px;
+    text-align: -moz-center;
 }
 .formviewsearch {
     border-radius: 5px;
     border: 1px solid #d2d2d2;
     background: #fff;
     position: relative;
-    margin-top: 10px;
     box-sizing: border-box;
     font-family: Avenir Next,Roboto Condensed,Arial,sans-serif;
+    width: 50%;
+    margin: 50px;
 }
 
 .formviewsearch > input {
-    position: relative!important;
-    background: none!important;
-    border: none!important;
-    color: #000!important;
-    padding: 5px 6px 5px 10px!important;
-    width: calc(100% - 60px)!important;
+    position: relative !important;
+    background: none !important;
+    border: none !important;
+    color: #000 !important;
+    padding: 5px 10px 5px 0px !important;
+    width: calc(100% - 30px) !important;
+    margin-right: 30px;
+    border-radius: 5px;
+    text-indent: 10px;
 }
 
 .formviewsearch > button::before {

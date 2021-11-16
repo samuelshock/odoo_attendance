@@ -6,32 +6,105 @@
       </t>
     </div>
 
-    <div t-name="User" owl="1">
-        <span><img class="user-image" t-att-src="props.user.image"/></span>
-        <h2><t t-esc="props.user.userName"/></h2>
-        <button t-on-click="checkIn">Check In</button>
+    <div t-name="User" owl="1" class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban o_kanban_record">
+        <div class="game">
+            <div class="rank"></div>
+            <div class="front">
+                <img class="user-photo" t-att-src="'data:image/png;base64,'+props.user.image"/>
+                <h3 class="name"><span><t t-esc="props.user.x_user_code"/> - <t t-esc="props.user.userName"/></span></h3>
+                <div class="status">
+                    <p class="viewers"><span>CI/NIT: <t t-esc="props.user.vat"></t></span></p>
+                </div>
+            </div>
+            <div class="back">
+                <div class="streaming-info">
+                    <p class="game-stat"><t t-esc="props.user.vat"/><span>CI/NIT</span></p>
+                    <p class="game-stat"><t t-esc="props.user.x_user_type"/><span>Usuario</span></p>
+                </div>
+                <button t-on-click="checkIn" class="btn btn-primary btn-user">Check In</button>
+            </div>
+            <div class="backgroundWrapper"></div>
+        </div>
     </div>
 
+<!--<script id="card-template" type="text/x-handlebars-template">-->
+<!--  <figure class="card card&#45;&#45;{{type}}">-->
+<!--  <div class="card__image-container">-->
+<!--    <img src="{{imageAddress}}" alt="{{name}}" class="card__image"/>-->
+<!--  </div>-->
+
+<!--  <figcaption class="card__caption">-->
+<!--    <h1 class="card__name">{{name}}</h1>-->
+
+<!--    <h3 class="card__type">e-->
+<!--      {{type}}-->
+<!--    </h3>-->
+
+<!--    <table class="card__stats">-->
+<!--      <tr>-->
+<!--        <th>HP</th>-->
+<!--        <td>{{hp}}</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <th>Attack</th>-->
+<!--        <td>{{attack}}</td>-->
+<!--      </tr>-->
+
+<!--      <tr>-->
+<!--        <th>Defense</th>-->
+<!--        <td>{{defense}}</td>-->
+<!--      </tr>-->
+
+<!--      <tr>-->
+<!--        <th>Special Attack</th>-->
+<!--        <td>{{spAttack}}</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <th>Special Defense</th>-->
+<!--        <td>{{spDefense}}</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <th>Speed</th>-->
+<!--        <td>{{speed}}</td>-->
+<!--      </tr>-->
+<!--    </table>-->
+
+<!--    <div class="card__abilities">-->
+<!--      <h4 class="card__ability">-->
+<!--        <span class="card__label">Ability</span>-->
+<!--        {{ability1}}-->
+<!--      </h4>-->
+<!--      <h4 class="card__ability">-->
+<!--        <span class="card__label">Hidden Ability</span>-->
+<!--        {{ability2}}-->
+<!--      </h4>-->
+<!--    </div>-->
+<!--  </figcaption>-->
+<!--</figure>-->
+<!--</script>-->
+
     <t t-name="FormView" class="formview" owl="1">
-        <div class="formview"  t-attf-style="background-image:url('props.background_image'); width:100%; height:100%;">
-        <div class="formviewsearch">
-          <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
-            <button t-on-click="searchUser"></button>
+        <div class="formview" t-attf-style="background-image:url({{props.background_image}}); width:100%; height:100%; background-color: #cccccc;background-position: center;background-repeat: no-repeat;background-size: cover;position: relative;">
+            <div class="formviewsearch">
+              <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
+                <button t-on-click="searchUser"></button>
+            </div>
+            <div class="user-list" t-on-check-in="checkIn">
+              <t t-foreach="users" t-as="user" t-key="user.id">
+                <User user="user"/>
+              </t>
+            </div>
+            <AsyncRoot>
+              <NotificationList notifications="state.notifs"/>
+            </AsyncRoot>
         </div>
-        <div class="user-list" t-on-check-in="checkIn">
-          <t t-foreach="users" t-as="user" t-key="user.id">
-            <User user="user"/>
-          </t>
-        </div>
-        <AsyncRoot>
-          <NotificationList notifications="state.notifs"/>
-        </AsyncRoot>
-      </div>
     </t>
 
     <t t-name="mainStandBy" owl="1">
         <div class="o_main_standby">
-
+            <video autoplay="True" muted="True" loop="True">
+              <source  t-att-src="{{props.background_video}}" type="video/mp4"/>
+            </video>
         </div>
     </t>
 </templates>

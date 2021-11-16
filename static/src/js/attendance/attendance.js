@@ -35,7 +35,11 @@ odoo.define("odoo_attendance", function (require) {
             console.log('-----------');
             console.log(arguments);
             console.log(this);
-            this.state = useState({ text: "", notifs: [] });
+            this.state = useState({
+                text: "",
+                notifs: [],
+                background: `background-image:url(${this.props.background_image}); width:100%; height:100%;`
+            });
         }
 
         async willStart() {
@@ -52,13 +56,10 @@ odoo.define("odoo_attendance", function (require) {
                 const search_text = ev.target.value.trim();
                 ev.target.value = "";
                 if (search_text) {
-                    const fields = ["id", "name", "image_1920"];
                     const users = await this.env.services.rpc({
-                        model: "res.partner",
-                        method: "search_read",
-                        kwargs: {
-                            fields,
-                        },
+                        model: "session.attendance",
+                        method: "search_user",
+                        args: [this.props.session_id, search_text]
                     });
                     console.log(users);
                     if (users.length > 0) {
@@ -67,6 +68,9 @@ odoo.define("odoo_attendance", function (require) {
                                 id: user.id,
                                 userName: user.name,
                                 image: user.image,
+                                vat: user.vat,
+                                x_user_code: user.x_user_code,
+                                x_user_type: user.x_user_type
                             })
                         );
                     } else {
