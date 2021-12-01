@@ -2,6 +2,7 @@ odoo.define("odoo_attendance", function (require) {
     "use strict";
 
     const AbstractAction = require("web.AbstractAction");
+    const env = require('web.env');
 
     const {
         ComponentWrapper,
@@ -32,9 +33,6 @@ odoo.define("odoo_attendance", function (require) {
 
         constructor() {
             super(...arguments);
-            console.log('-----------');
-            console.log(arguments);
-            console.log(this);
             this.state = useState({
                 text: "",
                 notifs: [],
@@ -45,10 +43,49 @@ odoo.define("odoo_attendance", function (require) {
         async willStart() {
             console.log("willstart");
             console.log(this);
+            if (this.props.session_id === undefined) {
+                window.location = '/';
+            }
+            core.bus.on('barcode_scanned', this, function (qr) {
+                this.qrSearchUser(qr);
+            });
+
         }
 
         mounted() {
             this.inputRef.el.focus();
+        }
+
+        async qrSearchUser(qr) {
+            const user = await this.env.services.rpc({
+                model: "session.attendance",
+                method: "search_user_qr",
+                args: [this.props.session_id, qr]
+            });
+            if (user) {
+                if (user.user_logged) {
+                    this.state.text = "El usuario: "+ user.name + "ya hizo check-in hoy!";
+                } else {
+                    this.state.text = "Bienvenido "+ user.name;
+                    const newLog = await this.env.services.rpc({
+                       model: "report.attendance.trace.log",
+                       method: "create",
+                       args: [
+                         {
+                           partner_id: user.id,
+                           psa_id: this.props.session_id,
+                         },
+                       ],
+                    });
+                }
+                this.showMessage();
+                while (this.users.length > 0) {
+                    this.users.pop();
+                }
+            } else {
+                this.state.text = "Usuario no encontrado, o intente con otro QR";
+                this.showMessage();
+            }
         }
 
         async searchUser(ev) {
@@ -61,8 +98,9 @@ odoo.define("odoo_attendance", function (require) {
                         method: "search_user",
                         args: [this.props.session_id, search_text]
                     });
-                    console.log(users);
                     if (users.length > 0) {
+                        console.log("entro find");
+                        console.log(this.users);
                         users.map((user) =>
                             this.users.push({
                                 id: user.id,
@@ -73,16 +111,11 @@ odoo.define("odoo_attendance", function (require) {
                                 x_user_type: user.x_user_type
                             })
                         );
+                        console.log(this.users);
                     } else {
                         this.state.text = "Usuario no encontrado, intente con otro valor a buscar";
                         this.showMessage();
                     }
-                    // this.users = [];
-                    // this.users.push({
-                    //   id: 1,
-                    //   userName: 'test',
-                    //   image: 'https://image.shutterstock.com/z/stock-photo-old-brick-black-color-wall-vintage-background-1605128917.jpg'
-                    // });
                 } else {
                     this.state.text = "Ingrese un valor a buscar";
                     this.showMessage();
@@ -108,11 +141,16 @@ odoo.define("odoo_attendance", function (require) {
                args: [
                  {
                    partner_id: user.id,
+                   psa_id: this.props.session_id,
                  },
                ],
             });
+            this.env.bus.trigger('show-message', this.state.text);
+            core.bus.trigger('show_message_attendance', this.state.text);
             this.showMessage();
-            this.users = useState([]);
+            while (this.users.length > 0) {
+                this.users.pop();
+            }
         }
     }
     FormView.components = { User, NotificationList, AsyncRoot };
@@ -238,6 +276,7 @@ odoo.define("odoo_attendance", function (require) {
         start() {
             console.log("************");
             console.log(this);
+//            env.bus = new owl.core.EventBus();
             const component = new ComponentWrapper(this, FormView, {
                 session_id: this.session_id,
                 background_image: this.background_image,

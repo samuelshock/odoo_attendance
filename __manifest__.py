@@ -9,10 +9,11 @@
     'description': """
         - personalizado
     """,
-    'depends': ['base'],
+    'depends': ['base', 'web', 'bus'],
     'data': [
         'security/ir.model.access.csv',
         'views/assets.xml',
+        'views/attendance_report_view.xml',
         'views/res_partner.xml',
         'views/attendance_view.xml',
     ],

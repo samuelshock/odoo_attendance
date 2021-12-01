@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_report_attendance_custom" model="ir.ui.view">
+        <field name="name">Reporte de entradas</field>
+        <field name="model">report.attendance.trace.log</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Report">
+                <field name="partner_id" />
+                <field name="check_in"/>
+                <field name="psa_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_form_report_attendance_custom" model="ir.ui.view">
+        <field name="name">Session Reporte de entrada</field>
+        <field name="model">report.attendance.trace.log</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="check_in"/>
+                        <field name="psa_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_report_attendance_custom" model="ir.actions.act_window">
+        <field name="name">Reporte</field>
+        <field name="res_model">report.attendance.trace.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Crear sessiones o puntos de attendance.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_attendance_config_custom" name="Config" sequence="2" parent="odoo_attendance.menu_attendance_session_custom"/>
+    <menuitem id="menu_attendance_report_custom" name="Reporte" sequence="1" action="odoo_attendance.action_report_attendance_custom" parent="odoo_attendance.menu_attendance_config_custom"/>
+
+</odoo>

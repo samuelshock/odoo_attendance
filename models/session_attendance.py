@@ -2,13 +2,16 @@
 from odoo import api, fields, models
 from datetime import datetime
 
+DATETIME_FORMAT = "%Y-%m-%d"
+
 
 class ReportAttendanceTraceLog(models.Model):
     _name = 'report.attendance.trace.log'
 
-    partner_id = fields.Many2one('res.partner', string='User', index=True, tracking=10)
-    check_in = fields.Date(string='Check in date time',  default=datetime.today())
+    partner_id = fields.Many2one('res.partner', string='Usuario')
+    check_in = fields.Datetime(string='Hora de Ingreso', default=datetime.today())
     psa_id = fields.Many2one('session.attendance', string='Molinete de ingreso')
+    welcome_message = fields.Boolean(string='Fue saludado', default=False)
 
 
 class PointSessionAttendance(models.Model):
@@ -39,15 +42,21 @@ class PointSessionAttendance(models.Model):
             'tag': 'standby_action',
             'context': {
                 'id': self.id,
+                'message': self.message_to_show,
+                'time_out_to_display': self.time_out_to_display,
                 'video': "/web/image/ir.attachment/{}/datas".format(self.background_standby_video.id),
             }
         }
 
     def search_user(self, text_to_search):
+        today = datetime.today()
         users = self.env['res.partner'].search(
             ['|', '|', ('x_user_code', 'ilike', text_to_search),
              ('mobile', 'ilike', text_to_search),
              ('vat', 'ilike', text_to_search)])
+        users_logged = self.env['report.attendance.trace.log'].search([
+            ('partner_id', 'in', users.ids),
+            ('check_in', '>=', today.strftime(DATETIME_FORMAT))])
         return [
             {
                 'id': u.id,
@@ -56,4 +65,36 @@ class PointSessionAttendance(models.Model):
                 'vat': u.vat,
                 'x_user_code': u.x_user_code,
                 'x_user_type': u.x_user_type
-            } for u in users]
+            } for u in users if u.id not in users_logged.partner_id.ids]
+
+    def search_user_qr(self, qr_text):
+        qr_vals = qr_text.split('/')
+        if len(qr_vals) < 2:
+            return False
+        if qr_vals[-2] != 'user':
+            return False
+        qr_id = qr_vals[-1]
+        today = datetime.today()
+        DATETIME_FORMAT = "%Y-%m-%d"
+        user = self.env['res.partner'].search([('id', '=', qr_id)])
+        if user:
+            user_logged = self.env['report.attendance.trace.log'].search(
+                [('partner_id', '=', user.id), ('check_in', '>=', today.strftime(DATETIME_FORMAT))])
+            return {
+                'id': user.id,
+                'name': user.name,
+                'user_logged': True if user_logged else False,
+            }
+        return False
+
+    def get_notifications(self):
+        today = datetime.today()
+        pending_notifications = self.env['report.attendance.trace.log'].search(
+            [('psa_id', '=', self.id),
+             ('welcome_message', '=', False),
+             ('check_in', '>=', today.strftime(DATETIME_FORMAT))])
+
+        return [{
+            'id': t_log.id,
+            'message': self.message_to_show.format(t_log.partner_id.name) if self.message_to_show.find('{}') > 0 else self.message_to_show,
+        } for t_log in pending_notifications]
