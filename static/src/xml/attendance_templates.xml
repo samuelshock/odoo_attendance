@@ -7,10 +7,9 @@
     </div>
 
     <div t-name="NotificationScreen" owl="1" class="notification-list-screen">
-        <div class="notification">Tests notificacion</div>
-      <t t-foreach="props.notifications" t-as="notif">
-        <div class="message-notification"><t t-esc="notif"/></div>
-      </t>
+          <t t-foreach="props.notifications" t-as="notif">
+            <div class="message-notification"><t t-esc="notif"/></div>
+          </t>
     </div>
 
     <div t-name="User" owl="1" class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban o_kanban_record">
