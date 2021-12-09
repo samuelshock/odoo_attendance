@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="odoo_attendance.partner_rfid_custom" model="ir.sequence">
+            <field name="name">User RFID code</field>
+            <field name="code">res.partner.rfid.custom</field>
+            <field name="prefix"></field>
+            <field name="padding">7</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
