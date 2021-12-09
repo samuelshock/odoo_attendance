@@ -44,7 +44,14 @@
                         </group>
                         <group string="StandBy Screen">
                             <field name="time_out_to_display" required="1"/>
-                            <field name="background_standby_video"/>
+                            <field name="time_background_interval"/>
+                            <field name="background_standby_video" widget="many2many">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="file_size"/>
+                                    <field name="type"/>
+                                </tree>
+                            </field>
                             <field name="message_to_show"/>
                         </group>
                     </group>

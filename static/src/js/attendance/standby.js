@@ -24,33 +24,54 @@ odoo.define("odoo_attendance.standby", function (require) {
                 text: "",
                 notifs: [],
             });
+            this.videos = useState([]);
             this.polling_notifications = useState(true);
-//            (async function() {
-//                var res = await this.startNotifications();
-//            })();
+            this.interval_id = null;
         }
 
         async willStart() {
             if (this.props.session_id === undefined) {
                 window.location = '/';
+            } else {
+                this.startNotifications();
+                this.startDisplayingVideos();
             }
-            this.startNotifications();
         }
 
         mounted() {
         }
+
         willUnmount() {
             this.polling_notifications = false;
+            clearInterval(this.interval_id);
+        }
+
+        startDisplayingVideos() {
+            var self = this;
+            let count = 0;
+
+            function cycleArray() {
+                let vid_length = self.videos.length > 0;
+
+                if (vid_length) {
+                    self.videos.splice(0, 1);
+                }
+
+                let index = count % self.props.background_video.length;
+                self.videos.push({
+                    id: index,
+                    src: self.props.background_video[index]
+                });
+                count++;
+            }
+
+            this.interval_id = setInterval(cycleArray, self.props.interval * 1000);
         }
 
         startNotifications() {
             var self = this;
-            console.log(self.props.time_out);
             setTimeout(function run() {
-                console.log('pool');
-                console.log(self.polling_notifications);
                 if (self.polling_notifications && self.polling_notifications != undefined) {
-                    console.log('polling notifications');
                     self.showMessage();
                     setTimeout(run, self.props.time_out * 1000);
                 }
@@ -66,9 +87,9 @@ odoo.define("odoo_attendance.standby", function (require) {
                     args: [self.props.session_id]
                 });
                 notifications.map((notif) => {
-                    self.state.notifs.push(notif.message);
+                    self.state.notifs.push(notif);
                     setTimeout(() => {
-                        var index = self.state.notifs.indexOf(notif.message);
+                        var index = self.state.notifs.indexOf(notif);
                         self.state.notifs.splice(index, 1);
                         self.env.services.rpc({
                             model: "report.attendance.trace.log",
@@ -93,6 +114,7 @@ odoo.define("odoo_attendance.standby", function (require) {
             this.session_id = action.context.id;
             this.message = action.context.message;
             this.time_out = action.context.time_out_to_display;
+            this.time_background_interval = action.context.time_background_interval;
             this.background_video = action.context.video;
             this._super.apply(this, arguments);
         },
@@ -101,6 +123,7 @@ odoo.define("odoo_attendance.standby", function (require) {
                 session_id: this.session_id,
                 message: this.message,
                 time_out: this.time_out,
+                interval: this.time_background_interval,
                 background_video: this.background_video,
             });
             return component.mount(this.el.querySelector(".o_content"));

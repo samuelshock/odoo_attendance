@@ -8,7 +8,10 @@
 
     <div t-name="NotificationScreen" owl="1" class="notification-list-screen">
           <t t-foreach="props.notifications" t-as="notif">
-            <div class="message-notification"><t t-esc="notif"/></div>
+              <t t-if="notif.image">
+                  <img class="user-photo" t-att-src="'data:image/png;base64,'+notif.image"/>
+              </t>
+              <div class="message-notification"><t t-esc="notif.message"/></div>
           </t>
     </div>
 
@@ -53,9 +56,11 @@
 
     <t t-name="mainStandBy" owl="1">
         <div class="o_main_standby">
-            <video autoplay="True" muted="True" loop="True">
-              <source t-att-src="props.background_video"/>
-            </video>
+            <t t-foreach="videos" t-as="vid" t-key="vid.id">
+                <video autoplay="True" muted="True" loop="True">
+                  <source t-att-src="vid.src"/>
+                </video>
+            </t>
             <AsyncRoot>
               <NotificationScreen notifications="state.notifs"/>
             </AsyncRoot>

@@ -41,15 +41,12 @@ odoo.define("odoo_attendance", function (require) {
         }
 
         async willStart() {
-            console.log("willstart");
-            console.log(this);
             if (this.props.session_id === undefined) {
                 window.location = '/';
             }
             core.bus.on('barcode_scanned', this, function (qr) {
                 this.qrSearchUser(qr);
             });
-
         }
 
         mounted() {
@@ -99,8 +96,6 @@ odoo.define("odoo_attendance", function (require) {
                         args: [this.props.session_id, search_text]
                     });
                     if (users.length > 0) {
-                        console.log("entro find");
-                        console.log(this.users);
                         users.map((user) =>
                             this.users.push({
                                 id: user.id,
@@ -111,7 +106,6 @@ odoo.define("odoo_attendance", function (require) {
                                 x_user_type: user.x_user_type
                             })
                         );
-                        console.log(this.users);
                     } else {
                         this.state.text = "Usuario no encontrado, intente con otro valor a buscar";
                         this.showMessage();
@@ -155,128 +149,13 @@ odoo.define("odoo_attendance", function (require) {
     }
     FormView.components = { User, NotificationList, AsyncRoot };
 
-    // class Todo extends Component {
-    //
-    //   constructor() {
-    //     super(...arguments);
-    //   }
-    //
-    //   users = useState([]);
-    //   inputRef = useRef("add-input");
-    //
-    //   mounted() {
-    //     this.inputRef.el.focus();
-    //   }
-
-    // async willStart() {
-    //   // TODO: Load here the qr code to user
-    //   const fields = ["id", "name", "completed"];
-    //   const users = await this.env.services.rpc({
-    //     model: "res.partner",
-    //     method: "search_read",
-    //     kwargs: {
-    //       fields,
-    //     },
-    //   });
-    //   tasks.map((task) =>
-    //     this.tasks.push({
-    //       id: task.id,
-    //       title: task.name,
-    //       isCompleted: task.completed,
-    //     })
-    //   );
-    // }
-
-
-    //   async addTask(ev) {
-    //     // 13 is keycode for ENTER
-    //     if (ev.keyCode === 13) {
-    //       const title = ev.target.value.trim();
-    //       ev.target.value = "";
-    //       if (title) {
-    //         const newTask = await this.env.services.rpc({
-    //           model: "todo",
-    //           method: "create",
-    //           args: [
-    //             {
-    //               name: title,
-    //               completed: false,
-    //             },
-    //           ],
-    //         });
-    //         this.tasks.push({
-    //           id: newTask,
-    //           title: title,
-    //           isCompleted: false,
-    //         });
-    //       }
-    //     }
-    //   }
-    //
-    //
-    //   async toggleTask(ev) {
-    //     const task = this.tasks.find((t) => t.id === ev.detail.id);
-    //     task.isCompleted = !task.isCompleted;
-    //     await this.env.services.rpc({
-    //       model: "todo",
-    //       method: "write",
-    //       args: [
-    //         [task.id],
-    //         {
-    //           completed: task.isCompleted,
-    //         },
-    //       ],
-    //     });
-    //   }
-    //
-    //
-    //   async deleteTask(ev) {
-    //     const index = this.tasks.findIndex((t) => t.id === ev.detail.id);
-    //     this.tasks.splice(index, 1);
-    //     await this.env.services.rpc({
-    //       model: "todo",
-    //       method: "unlink",
-    //       args: [[ev.detail.id]],
-    //     });
-    //   }
-    // }
-    //
-    //
-    // Todo.components = { User };
-    //
-    //
-    // Todo.template = tags.xml`
-    //   <div>
-    //     <div class="o_form_view">
-    //       <div class="o_form_sheet_bg">
-    //         <div class="o_form_sheet">
-    //           <div class="todo-app">
-    //             <input placeholder="Enter a new task" t-on-keyup="addTask" t-ref="add-input"/>
-    //             <div class="task-list" t-on-toggle-task="toggleTask" t-on-delete-task="deleteTask">
-    //               <t t-foreach="tasks" t-as="task" t-key="task.id">
-    //                 <Task task="task"/>
-    //               </t>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
-
-
     const ClientAction = AbstractAction.extend(WidgetAdapterMixin, {
         init: function (parent, action) {
-            console.log(parent);
-            console.log(action);
             this.session_id = action.context.id;
             this.background_image = action.context.image;
             this._super.apply(this, arguments);
         },
         start() {
-            console.log("************");
-            console.log(this);
-//            env.bus = new owl.core.EventBus();
             const component = new ComponentWrapper(this, FormView, {
                 session_id: this.session_id,
                 background_image: this.background_image,

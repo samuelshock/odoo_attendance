@@ -12,8 +12,14 @@
                             <field name="x_user_code"/>
                             <field name="x_user_type"/>
                             <field name="x_user_type_color"/>
+                            <field name="x_user_rfid"/>
+                            <field name="x_show_profile_image"/>
+                            <button type="object" class="btn btn-primary" name="generate_code">Generar</button>
                         </group>
-                        <group name="group_x_right"/>
+                        <group name="group_x_right">
+                            <field name="qr_url" readonly="True"/>
+                            <field name="qr_image" widget="image" width="100" height="100"/><br/>
+                        </group>
                     </group>
                 </page>
             </xpath>

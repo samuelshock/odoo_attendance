@@ -9,13 +9,17 @@
     'description': """
         - personalizado
     """,
-    'depends': ['base', 'web', 'bus'],
+    'depends': ['base', 'web', 'bus', 'account'],
     'data': [
         'security/ir.model.access.csv',
+        'data/sequence.xml',
         'views/assets.xml',
+        'views/user_profile_templates.xml',
         'views/attendance_report_view.xml',
         'views/res_partner.xml',
         'views/attendance_view.xml',
+        'report/res_partner_templates.xml',
+        'report/res_partner_report_view.xml',
     ],
     'qweb': [
         'static/src/xml/attendance_templates.xml',
