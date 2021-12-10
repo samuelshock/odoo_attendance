@@ -13,6 +13,8 @@ def get_part_of_day(h):
         else "Tarde"
         if 12 <= h <= 17
         else "Noche"
+        if 18 <= h <= 23
+        else "Madrugada"
     )
 
 
