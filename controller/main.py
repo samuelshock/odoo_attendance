@@ -6,11 +6,18 @@ File_Type = ['application/pdf', 'image/jpeg', 'image/png']  # allowed file type
 
 
 class CustomPortalTemplateRender(CustomerPortal):
-    MANDATORY_BILLING_FIELDS = []
-    OPTIONAL_BILLING_FIELDS = ["zipcode", "state_id", "vat", "company_name", "image_1920", "name", "email",
-                               "phone", "city", "country_id"]
 
     _items_per_page = 20
+
+    # @route(['/user/search'], type='http', auth='public', website=True)
+    # def check_inPage(self, redirect=None, **post):
+    #     values = self._prepare_portal_layout_values()
+    #     # values.update({
+    #     #     ''
+    #     # })
+    #     response = request.render("odoo_attendance.SearchUserView", values)
+    #     response.headers['X-Frame-Options'] = 'DENY'
+    #     return response
 
     @route(['/user/profile/<string:user_id>'], type='http', auth='public', website=True)
     def account(self, user_id, redirect=None, **post):

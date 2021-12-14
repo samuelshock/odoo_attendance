@@ -103,3 +103,13 @@
     width: 150px;
     height: 200px;
 }
+
+.formview > button.btn.btn-primary:hover {
+    background-color: black !important;
+}
+
+.o_cc1 .btn-fill-primary:hover, .o_cc1 .btn-primary:hover, .o_colored_level .o_cc1 .btn-fill-primary:hover, .o_colored_level .o_cc1 .btn-primary:hover {
+    color: #FFFFFF;
+    background-color: #65639e !important;
+    border-color: #5f5e97;
+}

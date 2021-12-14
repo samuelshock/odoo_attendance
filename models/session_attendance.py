@@ -71,7 +71,11 @@ class PointSessionAttendance(models.Model):
         return time
 
     def open_standby_screen_page(self):
-        videos = ["/web/image/ir.attachment/{}/datas".format(v.id) for v in self.background_standby_video]
+        videos = [
+            {
+                'src': "/web/image/ir.attachment/{}/datas".format(v.id),
+                'type': v.index_content,
+            } for v in self.background_standby_video]
         return {
             'res_model': 'session.attendance',
             'type': 'ir.actions.client',

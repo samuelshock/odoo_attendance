@@ -26,6 +26,14 @@ odoo.define("odoo_attendance", function (require) {
 
     class NotificationList extends Component {}
 
+    class SearchUserView extends Component {}
+
+    class UserList extends Component {}
+
+    UserList.components = { User };
+
+    SearchUserView.components = { UserList };
+
     class FormView extends Component {
 
         users = useState([]);

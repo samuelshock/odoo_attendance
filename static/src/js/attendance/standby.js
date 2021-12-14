@@ -58,9 +58,11 @@ odoo.define("odoo_attendance.standby", function (require) {
                 }
 
                 let index = count % self.props.background_video.length;
+                console.log(self.props.background_video[index]);
                 self.videos.push({
                     id: index,
-                    src: self.props.background_video[index]
+                    src: self.props.background_video[index].src,
+                    type: self.props.background_video[index].type
                 });
                 count++;
             }

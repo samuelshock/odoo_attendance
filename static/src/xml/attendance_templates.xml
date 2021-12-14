@@ -16,26 +16,72 @@
     </div>
 
     <div t-name="User" owl="1" class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban o_kanban_record">
-        <div class="game">
-            <div class="rank">VIP</div>
-            <div class="front">
-                <img class="user-photo" t-att-src="'data:image/png;base64,'+props.user.image"/>
-                <h3 t-if="props.user.x_user_code != false" class="name"><span><t t-esc="props.user.x_user_code"/> - <t t-esc="props.user.userName"/></span></h3>
-                <h3 t-else="" class="name"><span><t t-esc="props.user.userName"/></span></h3>
-                <div class="status">
-                    <p class="viewers"><span>CI/NIT: <t t-esc="props.user.vat"></t></span></p>
+        <div class="container">
+          <div class="row s_nb_column_fixed s_col_no_bgcolor">
+              <div class="s_media_list_body col-lg-2"/>
+            <div class="col-lg-8 s_media_list_item pt16 pb16" style="background-color: #3f556b;" data-name="Media item">
+              <div style="background-color: #242222;color: #eceff2;" class="row s_col_no_resize s_col_no_bgcolor no-gutters o_cc o_cc1 o_colored_level align-items-center">
+                <div class="align-self-stretch s_media_list_img_wrapper col-lg-2">
+                  <img t-att-src="'data:image/png;base64,'+props.user.image" class="s_media_list_img h-100 w-100" alt="" loading="lazy" data-mimetype="image/jpeg" data-resize-width="512" style=""/>
                 </div>
-            </div>
-            <div class="back">
-                <div class="streaming-info">
-                    <p class="game-stat"><t t-esc="props.user.vat"/><span>CI/NIT</span></p>
-                    <p t-if="props.user.x_user_type != false" class="game-stat"><t t-esc="props.user.x_user_type"/><span>Usuario</span></p>
+                <div class="s_media_list_body col-lg-8">
+                  <h3 style="text-align: left;padding: 25px;"><t t-esc="props.user.userName"/><br/></h3>
                 </div>
-                <button t-on-click="checkIn" class="btn btn-primary btn-user">Check In</button>
+                  <div class="s_media_list_body col-lg-2" style="color: white;">
+                      <button t-on-click="checkIn" class="btn btn-primary" style="background-color: transparent;padding: 0;border-style: none;height: 101px;width: 101px;border-radius: 0px;"><i class="fa fa-angle-right" style="font-size: xxx-large;"/></button>
+                  </div>
+              </div>
             </div>
-            <div class="backgroundWrapper"></div>
+          </div>
         </div>
+<!--        <div class="game">-->
+<!--            <div class="rank">VIP</div>-->
+<!--            <div class="front">-->
+<!--                <img class="user-photo" t-att-src="'data:image/png;base64,'+props.user.image"/>-->
+<!--                <h3 t-if="props.user.x_user_code != false" class="name"><span><t t-esc="props.user.x_user_code"/> - <t t-esc="props.user.userName"/></span></h3>-->
+<!--                <h3 t-else="" class="name"><span><t t-esc="props.user.userName"/></span></h3>-->
+<!--                <div class="status">-->
+<!--                    <p class="viewers"><span>CI/NIT: <t t-esc="props.user.vat"></t></span></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="back">-->
+<!--                <div class="streaming-info">-->
+<!--                    <p class="game-stat"><t t-esc="props.user.vat"/><span>CI/NIT</span></p>-->
+<!--                    <p t-if="props.user.x_user_type != false" class="game-stat"><t t-esc="props.user.x_user_type"/><span>Usuario</span></p>-->
+<!--                </div>-->
+<!--                <button t-on-click="checkIn" class="btn btn-primary btn-user">Check In</button>-->
+<!--            </div>-->
+<!--            <div class="backgroundWrapper"></div>-->
+<!--        </div>-->
     </div>
+
+    <t t-name="UserList">
+        <div class="user-list" t-on-check-in="checkIn">
+            <t t-foreach="props.users" t-as="user" t-key="user.id">
+                <User user="user"/>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="SearchUserView" owl="1">
+        <div class="container">
+            <div class="row s_nb_column_fixed s_col_no_bgcolor">
+                <div class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                    <div class="col-lg-2"/>
+                    <div class="col-lg-6">
+                        <input placeholder="Enter the CI or User code or mobile number to search your profile " t-on-keyup="searchUser" t-ref="add-input" />
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-primary" t-on-click="searchUser"> Buscar </button>
+                    </div>
+                    <div class="col-lg-2"/>
+                </div>
+            </div>
+            <div class="row s_nb_column_fixed s_col_no_bgcolor">
+                <UserList users="users"/>
+            </div>
+        </div>
+    </t>
 
     <t t-name="FormView" class="formview" owl="1">
         <div class="formview" t-attf-style="background-image:url({{props.background_image}}); width:100%; height:100%; background-color: #cccccc;background-position: center;background-repeat: no-repeat;background-size: cover;position: relative;">
@@ -57,9 +103,14 @@
     <t t-name="mainStandBy" owl="1">
         <div class="o_main_standby">
             <t t-foreach="videos" t-as="vid" t-key="vid.id">
-                <video autoplay="True" muted="True" loop="True">
-                  <source t-att-src="vid.src"/>
-                </video>
+                <t t-if="vid.type == 'video'">
+                    <video autoplay="True" muted="True" loop="True">
+                        <source t-att-src="vid.src"/>
+                    </video>
+                </t>
+                <t t-if="vid.type == 'image'">
+                    <img t-att-src="vid.src" loading="lazy" data-mimetype="image/jpeg"/>
+                </t>
             </t>
             <AsyncRoot>
               <NotificationScreen notifications="state.notifs"/>

@@ -4,7 +4,7 @@
         <t t-call="portal.portal_layout">
             <t t-set="additional_title">Contact Details</t>
             <div class="oe_structure"/>
-            <form action="/user/profile" class="row" method="post">
+            <form class="row">
                 <div class="oe_structure"/>
                 <div class="col-md-3 o_portal_details">
                     <div class=" pt16 pb16 o_colored_level">
@@ -37,67 +37,38 @@
                                                 </div>
                                             </div>
                                             <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label" for="name">Name</label>
-                                                <input type="text" name="name"
-                                                       t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}"
-                                                       t-att-value="name or partner.name"/>
+                                                <label class="col-form-label" for="name">Name: </label>
+                                                <span><t t-esc="name or partner.name"/></span>
                                             </div>
                                             <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label" for="email">Email</label>
-                                                <input type="email" name="email"
-                                                       t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"
-                                                       t-att-value="email or partner.email"/>
+                                                <label class="col-form-label" for="email">Email: </label>
+                                                <span><t t-esc="email or partner.email"/></span>
                                             </div>
 
                                             <div class="clearfix"/>
-
-
                                             <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label" for="phone">Phone</label>
-                                                <input type="tel" name="phone"
-                                                       t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"
-                                                       t-att-value="phone or partner.phone"/>
+                                                <label class="col-form-label" for="phone">Phone: </label>
+                                                <span><t t-esc="phone or partner.phone"/></span>
                                             </div>
 
                                             <div class="clearfix"/>
 
                                             <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label" for="city">City</label>
-                                                <input type="text" name="city"
-                                                       t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"
-                                                       t-att-value="city or partner.city"/>
+                                                <label class="col-form-label" for="city">City: </label>
+                                                <span><t t-esc="city or partner.city"/></span>
                                             </div>
 
                                             <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label" for="country_id">Country</label>
-                                                <select name="country_id"
-                                                        t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
-                                                    <option value="">Country...</option>
-                                                    <t t-foreach="countries or []" t-as="country">
-                                                        <option t-att-value="country.id"
-                                                                t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id">
-                                                            <t t-esc="country.name"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
+                                                <label class="col-form-label" for="country_id">Country: </label>
+                                                <span><t t-esc="partner.country_id.name"/></span>
                                             </div>
 
 
                                             <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-xl-6">
-                                                <label class="col-form-label label-optional" for="state_id">State /
-                                                    Province
+                                                <label class="col-form-label" for="state_id">State /
+                                                    Province:
                                                 </label>
-                                                <select name="state_id"
-                                                        t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}">
-                                                    <option value="">select...</option>
-                                                    <t t-foreach="states or []" t-as="state">
-                                                        <option t-att-value="state.id" style="display:none;"
-                                                                t-att-data-country_id="state.country_id.id"
-                                                                t-att-selected="state.id == partner.state_id.id">
-                                                            <t t-esc="state.name"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
+                                                <span><t t-esc="partner.state_id.name"/></span>
                                             </div>
                                         </div>
                                     </div>
