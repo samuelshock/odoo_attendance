@@ -5,18 +5,18 @@ from odoo.exceptions import UserError
 from odoo.addons.odoo_attendance.models.qr_code_base import generate_qr_code
 
 
+class UserTypeCustom(models.Model):
+    _name = 'user.type'
+
+    name = fields.Char(string="User type name", required=True)
+
+
 class AttendanceResPartner(models.Model):
     _inherit = 'res.partner'
 
     x_identity_card = fields.Char(string="Identity card")
     x_user_code = fields.Char(string="User code")
-    x_user_type = fields.Selection([
-        ('vip', 'Vip'),
-        ('vip2', 'Vip 2'),
-        ('vipn', 'Vip n'),
-        ('client', 'Client'),
-        ('locked', 'Locked')
-    ], "Type of user")
+    x_user_type_id = fields.Many2one('user.type', string="Type of user")
     x_user_type_color = fields.Selection([
         ('code_color', 'Code color'),
         ('code_colorn', 'Code color n'),

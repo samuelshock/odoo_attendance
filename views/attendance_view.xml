@@ -41,6 +41,7 @@
                             <field name="name" required="1"/>
                             <field name="background_login_image" required="1"/>
                             <field name="status_active"/>
+                            <field name="user_types" widget="many2many_tags"/>
                         </group>
                         <group string="StandBy Screen">
                             <field name="time_out_to_display" required="1"/>

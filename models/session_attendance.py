@@ -44,6 +44,7 @@ class PointSessionAttendance(models.Model):
     name = fields.Char(string='Entrada')
     background_login_image = fields.Many2one('ir.attachment', string='Image')
     background_standby_video = fields.Many2many('ir.attachment', string='Video')
+    user_types = fields.Many2many('user.type', string="Type of user")
 
     status_active = fields.Boolean(string='Estado', default=False)
     time_out_to_display = fields.Float(string="Tiempo de espera para mostrar mensaje", default=5.0)
@@ -92,10 +93,14 @@ class PointSessionAttendance(models.Model):
     def search_user(self, text_to_search):
         today = datetime.today()
         today = self._convert_to_user_hour(today)
-        users = self.env['res.partner'].search(
-            ['|', '|', '|', ('display_name', 'ilike', text_to_search), ('x_user_code', 'ilike', text_to_search),
-             ('mobile', 'ilike', text_to_search),
-             ('vat', 'ilike', text_to_search)])
+        domain = ['|', '|', '|', ('display_name', 'ilike', text_to_search), ('x_user_code', 'ilike', text_to_search),
+                  ('mobile', 'ilike', text_to_search),
+                  ('vat', 'ilike', text_to_search)]
+
+        if self.user_types:
+            user_type_ids = [u.id for u in self.user_types]
+            domain.append(('x_user_type_id', 'in', user_type_ids))
+        users = self.env['res.partner'].search(domain)
         users_logged = self.env['report.attendance.trace.log'].search([
             ('partner_id', 'in', users.ids),
             ('check_in', '>=', today.strftime(DATETIME_FORMAT))])
@@ -106,20 +111,24 @@ class PointSessionAttendance(models.Model):
                 'image': u.image_1920,
                 'vat': u.vat,
                 'x_user_code': u.x_user_code,
-                'x_user_type': u.x_user_type
+                'x_user_type': u.x_user_type_id.name
             } for u in users if u.id not in users_logged.partner_id.ids]
 
     def search_user_qr(self, qr_text):
         qr_vals = qr_text.split('/')
-        if len(qr_vals) < 2:
-            return False
-        if qr_vals[-2] != 'profile':
-            return False
-        qr_id = qr_vals[-1]
+        if len(qr_vals) < 2 and qr_vals[-2] != 'profile':
+            qr_id = qr_vals[-1]
+        else:
+            qr_id = qr_text
         today = datetime.today()
         today = self._convert_to_user_hour(today)
         DATETIME_FORMAT = "%Y-%m-%d"
-        user = self.env['res.partner'].search([('x_user_rfid', '=', qr_id)])
+        domain = [('x_user_rfid', '=', qr_id)]
+
+        if self.user_types:
+            user_type_ids = [u.id for u in self.user_types]
+            domain.append(('x_user_type_id', 'in', user_type_ids))
+        user = self.env['res.partner'].search(domain)
         if user:
             user_logged = self.env['report.attendance.trace.log'].search(
                 [('partner_id', '=', user.id), ('check_in', '>=', today.strftime(DATETIME_FORMAT))])
